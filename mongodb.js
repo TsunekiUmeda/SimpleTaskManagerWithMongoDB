@@ -17,20 +17,17 @@ MongoClient.connect(
     }
 
     const db = client.db(databaseName)
-    // db.collection('users')
-    //   .deleteMany({
-    //     age: 40,
-    //   })
-    //   .then(result => {
-    //     console.log(result)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
     db.collection('tasks')
-      .deleteOne({
-        description: 'English shadowing',
-      })
+      .updateMany(
+        {
+          completed: 'true',
+        },
+        {
+          $set: {
+            completed: true,
+          },
+        }
+      )
       .then(result => {
         console.log(result)
       })
