@@ -8,10 +8,6 @@ const { MongoClient, ObjectID } = require('mongodb')
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
 
-const id = new ObjectID()
-console.log(id.id.length)
-console.log(id.toHexString().length)
-
 MongoClient.connect(
   connectionURL,
   { useNewUrlParser: true, useUnifiedTopology: true },
@@ -21,59 +17,40 @@ MongoClient.connect(
     }
 
     const db = client.db(databaseName)
+    // db.collection('users')
+    //   .updateOne(
+    //     {
+    //       _id: new ObjectID('5ff060cb5c037c179fed4a2b'),
+    //     },
+    //     {
+    //       $inc: {
+    //         age: 1,
+    //       },
+    //     }
+    //   )
+    //   .then(result => {
+    //     console.log(result)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
 
-    // db.collection('users').insertOne(
-    //   {
-    //     name: 'Vikram',
-    //     age: 40,
-    //   },
-    //   (error, result) => {
-    //     if (error) {
-    //       return console.log('Unable to insert user')
-    //     }
-    //     console.log(result.ops)
-    //   }
-    // )
-    // db.collection('users').insertMany(
-    //   [
-    //     {
-    //       name: 'Jen',
-    //       age: 26,
-    //     },
-    //     {
-    //       name: 'Gunther',
-    //       age: 27,
-    //     },
-    //   ],
-    //   (error, result) => {
-    //     if (error) {
-    //       return console.log('Unable to insert documents')
-    //     }
-    //     console.log(result.ops)
-    //   }
-    // )
-
-    // db.collection('tasks').insertMany(
-    //   [
-    //     {
-    //       description: 'English shadowing',
-    //       completed: 'false',
-    //     },
-    //     {
-    //       description: 'Github contribution',
-    //       completed: 'true',
-    //     },
-    //     {
-    //       description: 'Yogrut',
-    //       completed: 'false',
-    //     },
-    //   ],
-    //   (error, result) => {
-    //     if (error) {
-    //       return console.log('Unable to insert tasks')
-    //     }
-    //     console.log(result.ops)
-    //   }
-    // )
+    db.collection('tasks')
+      .updateMany(
+        {
+          completed: 'false',
+        },
+        {
+          $set: {
+            completed: 'true',
+          },
+        }
+      )
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 )
